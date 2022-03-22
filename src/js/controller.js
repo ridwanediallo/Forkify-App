@@ -1,3 +1,6 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 const icons = new URL('../img/icons.svg', import.meta.url);
 
 const recipeContainer = document.querySelector('.recipe');
