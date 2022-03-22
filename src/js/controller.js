@@ -14,7 +14,20 @@ const timeout = function (s) {
 
 ///////////////////////////////////////
 
+const renderSpinner = function (parentEl) {
+  const markup = ` 
+  <div class="spinner">
+  <svg>
+    <use href="${icons.href}#icon-loader"></use>
+  </svg>
+</div>
+    `;
+    parentEl.innerHTML = '';
+    parentEl.insertAdjacentHTML('afterbegin', markup);
+};
+
 const showRecipe = async function () {
+  renderSpinner(recipeContainer);
   try {
     // 1.Loading the recipe
     const res = await fetch(
