@@ -1,5 +1,5 @@
 
-const icons = new URL('../img/icons.svg', import.meta.url);
+const icons = new URL('../../img/icons.svg', import.meta.url);
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
 
