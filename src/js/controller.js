@@ -1,5 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import * as modal from './modal.js';
+
 
 const icons = new URL('../img/icons.svg', import.meta.url);
 
@@ -25,33 +27,18 @@ const renderSpinner = function (parentEl) {
   </svg>
 </div>
     `;
-    parentEl.innerHTML = '';
-    parentEl.insertAdjacentHTML('afterbegin', markup);
+  parentEl.innerHTML = '';
+  parentEl.insertAdjacentHTML('afterbegin', markup);
 };
 
 const showRecipe = async function () {
   renderSpinner(recipeContainer);
   try {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
     // 1.Loading the recipe
-    const res = await fetch(
-      'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
-    );
-    const data = await res.json();
-    console.log(data);
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-
-    let { recipe } = data.data;
-    recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cookint_time,
-      ingredients: recipe.ingredients,
-    };
-    console.log(recipe);
+     await modal.loadRecipe(id);
+  const {recipe} = modal.state;
 
     // 2. Rendering the recipe
 
@@ -161,3 +148,6 @@ const showRecipe = async function () {
   }
 };
 showRecipe();
+
+['hashchange', 'load'].forEach((ev) => window.addEventListener(ev, showRecipe));
+
